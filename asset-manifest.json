@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/imdb-parental-guide/static/css/main.76e27cc9.chunk.css",
-    "main.js": "/imdb-parental-guide/static/js/main.899628e1.chunk.js",
-    "main.js.map": "/imdb-parental-guide/static/js/main.899628e1.chunk.js.map",
+    "main.js": "/imdb-parental-guide/static/js/main.cd4e7c17.chunk.js",
+    "main.js.map": "/imdb-parental-guide/static/js/main.cd4e7c17.chunk.js.map",
     "runtime-main.js": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js",
     "runtime-main.js.map": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js.map",
     "static/js/2.f8cfe5ed.chunk.js": "/imdb-parental-guide/static/js/2.f8cfe5ed.chunk.js",
     "static/js/2.f8cfe5ed.chunk.js.map": "/imdb-parental-guide/static/js/2.f8cfe5ed.chunk.js.map",
     "index.html": "/imdb-parental-guide/index.html",
-    "precache-manifest.a558691fb7d1c905ba1127061ea8e0ee.js": "/imdb-parental-guide/precache-manifest.a558691fb7d1c905ba1127061ea8e0ee.js",
+    "precache-manifest.af966b19cee927f479fb5adb428f4d99.js": "/imdb-parental-guide/precache-manifest.af966b19cee927f479fb5adb428f4d99.js",
     "service-worker.js": "/imdb-parental-guide/service-worker.js",
     "static/css/main.76e27cc9.chunk.css.map": "/imdb-parental-guide/static/css/main.76e27cc9.chunk.css.map",
     "static/js/2.f8cfe5ed.chunk.js.LICENSE.txt": "/imdb-parental-guide/static/js/2.f8cfe5ed.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.c187cc80.js",
     "static/js/2.f8cfe5ed.chunk.js",
     "static/css/main.76e27cc9.chunk.css",
-    "static/js/main.899628e1.chunk.js"
+    "static/js/main.cd4e7c17.chunk.js"
   ]
 }
