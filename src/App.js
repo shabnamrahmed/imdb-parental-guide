@@ -51,6 +51,11 @@ class App extends React.Component {
               inputValue: evt.target.value,
             })
           }
+          onKeyUp={(e) => {
+            if (e.key === "Enter") {
+              this.Submit();
+            }
+          }}
         ></input>
         <button onClick={this.Submit}>Submit</button>
 
