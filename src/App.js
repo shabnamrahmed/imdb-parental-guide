@@ -8,23 +8,27 @@ class App extends React.Component {
     titleOptions: [],
     parentalGuides: [],
     spoilerGuides: [],
-    isTitlesLoading: false,
-    isParentalGuidsLoading: false,
+    isLoading: false,
   };
 
   Submit = () => {
-    this.setState({ isTitlesLoading: true });
+    this.setState({
+      isLoading: true,
+      parentalGuides: [],
+      spoilerGuides: [],
+      isShowingParentalGuides: false,
+    });
     axios
       .post("https://imdb-parental-advisory.xsaudahmed.repl.co/findTitles", {
         titleName: this.state.inputValue,
       })
       .then((res) =>
-        this.setState({ titleOptions: res.data, isTitlesLoading: false })
+        this.setState({ titleOptions: res.data, isLoading: false })
       );
   };
 
   GetParentalGuide = (titleId) => {
-    this.setState({ isParentalGuidsLoading: true });
+    this.setState({ isLoading: true });
     axios
       .post("https://imdb-parental-advisory.xsaudahmed.repl.co/parentalGuide", {
         titleId,
@@ -36,78 +40,99 @@ class App extends React.Component {
             isOpen: false,
           })),
           spoilerGuides: res.data.spoilersGuide,
-          isParentalGuidsLoading: false,
+          isLoading: false,
+          isShowingParentalGuides: true,
         })
       );
   };
 
+  CloseParentalGuide = () => {
+    this.setState({
+      parentalGuides: [],
+      spoilerGuides: [],
+      isShowingParentalGuides: false,
+    });
+  };
+
   render() {
     return (
-      <div>
-        <input
-          value={this.state.inputValue}
-          onChange={(evt) =>
-            this.setState({
-              inputValue: evt.target.value,
-            })
-          }
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              this.Submit();
+      <div class="main-container">
+        <div class="search">
+          <button
+            class={
+              !this.state.isShowingParentalGuides
+                ? "close-parental-guide_button"
+                : ""
             }
-          }}
-        ></input>
-        <button onClick={this.Submit}>Submit</button>
-
-        {this.state.isTitlesLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <div>
+            onClick={this.CloseParentalGuide}
+          >
+            Back
+          </button>
+          <input
+            class="search-bar"
+            value={this.state.inputValue}
+            onChange={(evt) =>
+              this.setState({
+                inputValue: evt.target.value,
+              })
+            }
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                this.Submit();
+              }
+            }}
+          ></input>
+          <button onClick={this.Submit}>Submit</button>
+        </div>
+        {this.state.isLoading && <div class="loading">Loading...</div>}
+        {!this.state.parentalGuides.length && (
+          <div class={this.state.titleOptions.length ? "titleOptions" : ""}>
             {this.state.titleOptions.map((item) => (
-              <div onClick={() => this.GetParentalGuide(item.id)}>
-                <img src={item.imageURL} alt="" />
-                <div>{item.title}</div>
+              <div
+                class="option"
+                onClick={() => this.GetParentalGuide(item.id)}
+              >
+                <img class="media-image" src={item.imageURL} alt="" />
+                <div class="text">{item.title}</div>
               </div>
             ))}
           </div>
         )}
 
-        {this.state.isParentalGuidsLoading ? (
-          <div>Loading...</div>
-        ) : (
+        <div class={this.state.parentalGuides.length ? "guides-container" : ""}>
           <div>
-            <div>
-              {this.state.parentalGuides.map((item) => (
-                <div>
-                  <div>{item.sectionName}</div>
-                  <div>{item.advisory.summary}</div>
-                  <div>{item.advisory.voteCount}</div>
-                  <div>
-                    <ul>
-                      {item.entries.map((entry) => (
-                        <li>{entry}</li>
-                      ))}
-                    </ul>
-                  </div>
+            {this.state.parentalGuides.map((item) => (
+              <div>
+                <div class="section-title-text">{item.sectionName}</div>
+                <div class="guide-summary-text">{item.advisory.summary}</div>
+                <div class="guide-vote-count-text">
+                  {item.advisory.voteCount}
                 </div>
-              ))}
-            </div>
-            <div>
-              {this.state.spoilerGuides.map((item) => (
                 <div>
-                  <div>{item.sectionName}</div>
-                  <div>
-                    <ul>
-                      {item.entries.map((entry) => (
-                        <li>{entry}</li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul>
+                    {item.entries.map((entry) => (
+                      <li class="guide-entry-text">{entry}</li>
+                    ))}
+                  </ul>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-        )}
+          <div>
+            {this.state.spoilerGuides.map((item) => (
+              <div>
+                <div class="section-title-text">{item.sectionName}</div>
+                <div>
+                  <ul>
+                    {item.entries.map((entry) => (
+                      <li class="guide-entry-text">{entry}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
