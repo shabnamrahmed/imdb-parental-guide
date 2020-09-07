@@ -9,6 +9,7 @@ class App extends React.Component {
     parentalGuides: [],
     spoilerGuides: [],
     isLoading: false,
+    selectedTitle: "",
   };
 
   Submit = () => {
@@ -27,8 +28,11 @@ class App extends React.Component {
       );
   };
 
-  GetParentalGuide = (titleId) => {
-    this.setState({ isLoading: true });
+  GetParentalGuide = (titleId, titleSelection) => {
+    this.setState({
+      isLoading: true,
+      selectedTitle: titleSelection,
+    });
     axios
       .post("https://imdb-parental-advisory.xsaudahmed.repl.co/parentalGuide", {
         titleId,
@@ -51,6 +55,7 @@ class App extends React.Component {
       parentalGuides: [],
       spoilerGuides: [],
       isShowingParentalGuides: false,
+      selectedTitle: "",
     });
   };
 
@@ -61,8 +66,8 @@ class App extends React.Component {
           <button
             class={
               !this.state.isShowingParentalGuides
-                ? "close-parental-guide_button"
-                : ""
+                ? "back-button-hidden"
+                : "back-button-displayed"
             }
             onClick={this.CloseParentalGuide}
           >
@@ -82,15 +87,23 @@ class App extends React.Component {
               }
             }}
           ></input>
-          <button onClick={this.Submit}>Submit</button>
+          <button class="search-button" onClick={this.Submit}>
+            Search
+          </button>
         </div>
         {this.state.isLoading && <div class="loading">Loading...</div>}
-        {!this.state.parentalGuides.length && (
-          <div class={this.state.titleOptions.length ? "titleOptions" : ""}>
+        {!this.state.parentalGuides.length && !this.state.isLoading && (
+          <div
+            class={
+              this.state.titleOptions.length
+                ? "titleOptions"
+                : "title-options-hidden"
+            }
+          >
             {this.state.titleOptions.map((item) => (
               <div
                 class="option"
-                onClick={() => this.GetParentalGuide(item.id)}
+                onClick={() => this.GetParentalGuide(item.id, item.title)}
               >
                 <img class="media-image" src={item.imageURL} alt="" />
                 <div class="text">{item.title}</div>
@@ -98,6 +111,17 @@ class App extends React.Component {
             ))}
           </div>
         )}
+
+        <div
+          class={
+            this.state.parentalGuides.length
+              ? "guides-heading"
+              : "guides-heading-hidden"
+          }
+        >
+          Parental Guide for:{" "}
+          <div class="selected-title">{this.state.selectedTitle}</div>
+        </div>
 
         <div class={this.state.parentalGuides.length ? "guides-container" : ""}>
           <div>

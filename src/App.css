@@ -16,8 +16,22 @@ html {
   width: 250px;
   height: 20px;
 }
-.close-parental-guide_button {
+.search-button {
+  background-color: #52796f;
+  color: #cad2c5;
+  border-width: 0;
+  margin-left: 5px;
+  border-radius: 5px;
+}
+.back-button-hidden {
   display: none;
+}
+.back-button-displayed {
+  background-color: #52796f;
+  color: #cad2c5;
+  border-width: 0;
+  margin-right: 5px;
+  border-radius: 5px;
 }
 .loading {
   text-align: center;
@@ -32,6 +46,9 @@ html {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.title-options-hidden {
+  display: none;
 }
 .titleOptions {
   margin-left: 20px;
@@ -51,6 +68,21 @@ html {
 .option:hover {
   opacity: 0.5;
 }
+.guides-heading-hidden {
+  display: none;
+}
+.guides-heading {
+  color: #cad2c5;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.selected-title {
+  color: #cad2c5;
+  font-size: 30px;
+  font-style: italic;
+}
 .guides-container {
   max-width: 75%;
   border: 5px solid #84a98c;
@@ -59,7 +91,7 @@ html {
 .section-title-text {
   color: #cad2c5;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 20px;
 }
 .guide-summary-text {
   color: #cad2c5;
