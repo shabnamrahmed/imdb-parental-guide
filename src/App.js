@@ -1,7 +1,14 @@
 import React from "react";
 import axios from "axios";
+import { cloneDeep } from "lodash";
 import "./App.css";
+import AdvisorySection from "./AdvisorySection";
 
+const AddIdToSection = (section, id) => ({
+  ...section,
+  isCollapsed: true,
+  id,
+});
 class App extends React.Component {
   state = {
     inputValue: "",
@@ -10,22 +17,23 @@ class App extends React.Component {
     spoilerGuides: [],
     isLoading: false,
     selectedTitle: "",
-    isOpen: false,
   };
 
   Submit = () => {
-    this.setState({
-      isLoading: true,
-      parentalGuides: [],
-      spoilerGuides: [],
-    });
-    axios
-      .post("https://imdb-parental-advisory.xsaudahmed.repl.co/findTitles", {
-        titleName: this.state.inputValue,
-      })
-      .then((res) =>
-        this.setState({ titleOptions: res.data, isLoading: false })
-      );
+    if (this.state.inputValue.length) {
+      this.setState({
+        isLoading: true,
+        parentalGuides: [],
+        spoilerGuides: [],
+      });
+      axios
+        .post("https://imdb-parental-advisory.xsaudahmed.repl.co/findTitles", {
+          titleName: this.state.inputValue,
+        })
+        .then((res) =>
+          this.setState({ titleOptions: res.data, isLoading: false })
+        );
+    }
   };
 
   GetParentalGuide = (titleId, titleSelection) => {
@@ -39,11 +47,8 @@ class App extends React.Component {
       })
       .then((res) =>
         this.setState({
-          parentalGuides: res.data.parentalGuide.map((section) => ({
-            ...section,
-            isOpen: false,
-          })),
-          spoilerGuides: res.data.spoilersGuide,
+          parentalGuides: res.data.parentalGuide.map(AddIdToSection),
+          spoilerGuides: res.data.spoilersGuide.map(AddIdToSection),
           isLoading: false,
         })
       );
@@ -57,21 +62,75 @@ class App extends React.Component {
     });
   };
 
-  ExpandCollapseAll = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+  ToggleAllExpansion = () => {
+    let newParentalGuides, newSpoilerGuides;
+
+    // check if any list is not isCollapsed
+    const isAnyParentalGuideOpen = this.state.parentalGuides.some(
+      (section) => !section.isCollapsed
+    );
+
+    const isAnySpoilerGuideOpen = this.state.spoilerGuides.some(
+      (section) => !section.isCollapsed
+    );
+
+    const isAnySectionOpen = isAnyParentalGuideOpen || isAnySpoilerGuideOpen;
+
+    //if something is expanded close everything
+    if (isAnySectionOpen) {
+      newParentalGuides = this.state.parentalGuides.map((section) => ({
+        ...section,
+        isCollapsed: true,
+      }));
+
+      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
+        ...section,
+        isCollapsed: true,
+      }));
+    }
+    //else collapse everything
+    else {
+      newParentalGuides = this.state.parentalGuides.map((section) => ({
+        ...section,
+        isCollapsed: false,
+      }));
+
+      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
+        ...section,
+        isCollapsed: false,
+      }));
+    }
+    this.setState({
+      parentalGuides: newParentalGuides,
+      spoilerGuides: newSpoilerGuides,
+    });
+  };
+
+  ToggleSectionExpansion = (id, isParentalGuide = false) => {
+    const newGuides = cloneDeep(
+      isParentalGuide ? this.state.parentalGuides : this.state.spoilerGuides
+    );
+
+    newGuides[id].isCollapsed = !newGuides[id].isCollapsed;
+
+    if (isParentalGuide) {
+      this.setState({ parentalGuides: newGuides });
+    } else {
+      this.setState({ spoilerGuides: newGuides });
+    }
   };
 
   render() {
     return (
-      <div class="main-container">
-        <div class="search">
+      <div className="main-container">
+        <div className="search">
           {!!this.state.parentalGuides.length && (
-            <button class="back-button" onClick={this.CloseParentalGuide}>
+            <button className="back-button" onClick={this.CloseParentalGuide}>
               Back
             </button>
           )}
           <input
-            class="search-bar"
+            className="search-bar"
             value={this.state.inputValue}
             onChange={(evt) =>
               this.setState({
@@ -84,11 +143,12 @@ class App extends React.Component {
               }
             }}
           ></input>
-          <button class="search-button" onClick={this.Submit}>
+          <button className="search-button" onClick={this.Submit}>
             Search
           </button>
         </div>
-        {this.state.isLoading && <div class="loading">Loading...</div>}
+        {this.state.isLoading && <div className="loading">Loading...</div>}
+
         {!!this.state.titleOptions.length &&
           !this.state.parentalGuides.length &&
           !this.state.isLoading && (
@@ -105,71 +165,13 @@ class App extends React.Component {
             </div>
           )}
 
-        {!!this.state.parentalGuides.length && (
-          <div class="guides-heading">
-            Parental Guide for:{" "}
-            <div class="selected-title">{this.state.selectedTitle}</div>
-          </div>
-        )}
-
-        <div class={this.state.parentalGuides.length ? "guides-container" : ""}>
-          {!!this.state.parentalGuides.length && (
-            <div class="expand-collapse" onClick={this.ExpandCollapseAll}>
-              Expand/Collapse All
-            </div>
-          )}
-
-          <div>
-            {!!this.state.parentalGuides.length && (
-              <div class="section-heading">Content Advisory:</div>
-            )}
-
-            {this.state.parentalGuides.map((item) => (
-              <div>
-                <div class="section-title-text">{item.sectionName}</div>
-                <div
-                  class={
-                    this.state.isOpen ? "expanded-entry" : "collapsed-entry"
-                  }
-                >
-                  <div class="guide-summary-text">{item.advisory.summary}</div>
-                  <div class="guide-vote-count-text">
-                    {item.advisory.voteCount}
-                  </div>
-                  <div>
-                    <ul class="entries-list">
-                      {item.entries.map((entry) => (
-                        <li class="guide-entry-text">{entry}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div>
-            {!!this.state.spoilerGuides.length && (
-              <div class="section-heading">Spoilers:</div>
-            )}
-
-            {this.state.spoilerGuides.map((item) => (
-              <div>
-                <div class="section-title-text">{item.sectionName}</div>
-                <div
-                  class={
-                    this.state.isOpen ? "expanded-entry" : "collapsed-entry"
-                  }
-                >
-                  <ul class="entries-list">
-                    {item.entries.map((entry) => (
-                      <li class="guide-entry-text">{entry}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <AdvisorySection
+          parentalGuides={this.state.parentalGuides}
+          spoilerGuides={this.state.spoilerGuides}
+          selectedTitle={this.state.selectedTitle}
+          ToggleSectionExpansion={this.ToggleSectionExpansion}
+          ToggleAllExpansion={this.ToggleAllExpansion}
+        />
       </div>
     );
   }
