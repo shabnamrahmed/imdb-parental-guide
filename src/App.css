@@ -37,11 +37,6 @@ html {
   border-radius: 5px;
   cursor: pointer;
 }
-.loading {
-  text-align: center;
-  color: #cad2c5;
-  margin: 20px;
-}
 .text {
   color: #cad2c5;
   text-align: center;

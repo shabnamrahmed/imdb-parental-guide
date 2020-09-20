@@ -3,6 +3,7 @@ import axios from "axios";
 import { cloneDeep } from "lodash";
 import "./App.css";
 import AdvisorySection from "./AdvisorySection";
+import LoadingSpinner from "./LoadingSpinner";
 
 const AddIdToSection = (section, id) => ({
   ...section,
@@ -10,6 +11,11 @@ const AddIdToSection = (section, id) => ({
   id,
 });
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.searchBarRef = React.createRef();
+  }
+
   state = {
     inputValue: "",
     titleOptions: [],
@@ -131,6 +137,7 @@ class App extends React.Component {
           )}
           <input
             className="search-bar"
+            ref={this.searchBarRef}
             value={this.state.inputValue}
             onChange={(evt) =>
               this.setState({
@@ -140,6 +147,7 @@ class App extends React.Component {
             onKeyUp={(e) => {
               if (e.key === "Enter") {
                 this.Submit();
+                this.searchBarRef.current.blur();
               }
             }}
           ></input>
@@ -147,7 +155,7 @@ class App extends React.Component {
             Search
           </button>
         </div>
-        {this.state.isLoading && <div className="loading">Loading...</div>}
+        {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
 
         {!!this.state.titleOptions.length &&
           !this.state.parentalGuides.length &&
