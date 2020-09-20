@@ -1,11 +1,11 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4959d1be6ff432784cc511da152f6f91",
+    "revision": "8208f7b63b7652410b01fc5539fd83d9",
     "url": "/imdb-parental-guide/index.html"
   },
   {
-    "revision": "5f57bf15c90cc6ce2c27",
-    "url": "/imdb-parental-guide/static/css/main.ff852e06.chunk.css"
+    "revision": "b6aa95bde0ff97caddbe",
+    "url": "/imdb-parental-guide/static/css/main.e27e8a6f.chunk.css"
   },
   {
     "revision": "9fb64571b0f6439abf76",
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/imdb-parental-guide/static/js/2.0b615497.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5f57bf15c90cc6ce2c27",
-    "url": "/imdb-parental-guide/static/js/main.7024b0b7.chunk.js"
+    "revision": "b6aa95bde0ff97caddbe",
+    "url": "/imdb-parental-guide/static/js/main.15b81c96.chunk.js"
   },
   {
     "revision": "bee59a4454ef26d6d29e",
