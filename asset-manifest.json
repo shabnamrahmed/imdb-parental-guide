@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/imdb-parental-guide/static/css/main.e27e8a6f.chunk.css",
-    "main.js": "/imdb-parental-guide/static/js/main.15b81c96.chunk.js",
-    "main.js.map": "/imdb-parental-guide/static/js/main.15b81c96.chunk.js.map",
+    "main.css": "/imdb-parental-guide/static/css/main.9568effc.chunk.css",
+    "main.js": "/imdb-parental-guide/static/js/main.a78837e9.chunk.js",
+    "main.js.map": "/imdb-parental-guide/static/js/main.a78837e9.chunk.js.map",
     "runtime-main.js": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js",
     "runtime-main.js.map": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js.map",
-    "static/js/2.0b615497.chunk.js": "/imdb-parental-guide/static/js/2.0b615497.chunk.js",
-    "static/js/2.0b615497.chunk.js.map": "/imdb-parental-guide/static/js/2.0b615497.chunk.js.map",
+    "static/js/2.c3f5d7d6.chunk.js": "/imdb-parental-guide/static/js/2.c3f5d7d6.chunk.js",
+    "static/js/2.c3f5d7d6.chunk.js.map": "/imdb-parental-guide/static/js/2.c3f5d7d6.chunk.js.map",
     "index.html": "/imdb-parental-guide/index.html",
-    "precache-manifest.07d41ace9be0903ab095c15a8d923450.js": "/imdb-parental-guide/precache-manifest.07d41ace9be0903ab095c15a8d923450.js",
+    "precache-manifest.f6f5ca8cc3b11d4370546af604c321eb.js": "/imdb-parental-guide/precache-manifest.f6f5ca8cc3b11d4370546af604c321eb.js",
     "service-worker.js": "/imdb-parental-guide/service-worker.js",
-    "static/css/main.e27e8a6f.chunk.css.map": "/imdb-parental-guide/static/css/main.e27e8a6f.chunk.css.map",
-    "static/js/2.0b615497.chunk.js.LICENSE.txt": "/imdb-parental-guide/static/js/2.0b615497.chunk.js.LICENSE.txt"
+    "static/css/main.9568effc.chunk.css.map": "/imdb-parental-guide/static/css/main.9568effc.chunk.css.map",
+    "static/js/2.c3f5d7d6.chunk.js.LICENSE.txt": "/imdb-parental-guide/static/js/2.c3f5d7d6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c187cc80.js",
-    "static/js/2.0b615497.chunk.js",
-    "static/css/main.e27e8a6f.chunk.css",
-    "static/js/main.15b81c96.chunk.js"
+    "static/js/2.c3f5d7d6.chunk.js",
+    "static/css/main.9568effc.chunk.css",
+    "static/js/main.a78837e9.chunk.js"
   ]
 }
