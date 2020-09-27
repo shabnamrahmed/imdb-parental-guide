@@ -23,9 +23,12 @@ class App extends React.Component {
     spoilerGuides: [],
     isLoading: false,
     selectedTitle: "",
+    errorMessage: "",
+    noResultsFound: false,
   };
 
   Submit = () => {
+    this.setState({ errorMessage: "", noResultsFound: false });
     if (this.state.inputValue.length) {
       this.setState({
         isLoading: true,
@@ -36,9 +39,15 @@ class App extends React.Component {
         .post("https://imdb-parental-advisory.xsaudahmed.repl.co/findTitles", {
           titleName: this.state.inputValue,
         })
-        .then((res) =>
-          this.setState({ titleOptions: res.data, isLoading: false })
-        );
+        .then((res) => {
+          this.setState({
+            titleOptions: res.data,
+            isLoading: false,
+            noResultsFound: !res.data.length,
+          });
+        });
+    } else {
+      this.setState({ errorMessage: "*Please enter a title" });
     }
   };
 
@@ -66,6 +75,13 @@ class App extends React.Component {
       spoilerGuides: [],
       selectedTitle: "",
     });
+  };
+
+  BlurMobileKeyboardOnSubmit = (e) => {
+    if (e.key === "Enter") {
+      this.Submit();
+      this.searchBarRef.current.blur();
+    }
   };
 
   ToggleAllExpansion = () => {
@@ -112,6 +128,52 @@ class App extends React.Component {
     });
   };
 
+  ToggleContentAdvisoryExpansion = () => {
+    let newParentalGuides;
+
+    const isAnyParentalGuideOpen = this.state.parentalGuides.some(
+      (section) => !section.isCollapsed
+    );
+
+    if (isAnyParentalGuideOpen) {
+      newParentalGuides = this.state.parentalGuides.map((section) => ({
+        ...section,
+        isCollapsed: true,
+      }));
+    } else {
+      newParentalGuides = this.state.parentalGuides.map((section) => ({
+        ...section,
+        isCollapsed: false,
+      }));
+    }
+    this.setState({
+      parentalGuides: newParentalGuides,
+    });
+  };
+
+  ToggleSpoilersExpansion = () => {
+    let newSpoilerGuides;
+
+    const isAnySpoilerGuideOpen = this.state.spoilerGuides.some(
+      (section) => !section.isCollapsed
+    );
+
+    if (isAnySpoilerGuideOpen) {
+      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
+        ...section,
+        isCollapsed: true,
+      }));
+    } else {
+      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
+        ...section,
+        isCollapsed: false,
+      }));
+    }
+    this.setState({
+      spoilerGuides: newSpoilerGuides,
+    });
+  };
+
   ToggleSectionExpansion = (id, isParentalGuide = false) => {
     const newGuides = cloneDeep(
       isParentalGuide ? this.state.parentalGuides : this.state.spoilerGuides
@@ -135,26 +197,28 @@ class App extends React.Component {
               Back
             </button>
           )}
-          <input
-            className="search-bar"
-            ref={this.searchBarRef}
-            value={this.state.inputValue}
-            onChange={(evt) =>
-              this.setState({
-                inputValue: evt.target.value,
-              })
-            }
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                this.Submit();
-                this.searchBarRef.current.blur();
+          <div>
+            <input
+              className="search-bar"
+              ref={this.searchBarRef}
+              value={this.state.inputValue}
+              onChange={(evt) =>
+                this.setState({
+                  inputValue: evt.target.value,
+                })
               }
-            }}
-          ></input>
+              onKeyUp={this.BlurMobileKeyboardOnSubmit}
+            ></input>
+            {this.state.errorMessage && (
+              <div className="error-message">{this.state.errorMessage}</div>
+            )}
+          </div>
+
           <button className="search-button" onClick={this.Submit}>
             Search
           </button>
         </div>
+        {this.state.noResultsFound && <div>No Results Found</div>}
         {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
 
         {!!this.state.titleOptions.length &&
@@ -179,6 +243,8 @@ class App extends React.Component {
           selectedTitle={this.state.selectedTitle}
           ToggleSectionExpansion={this.ToggleSectionExpansion}
           ToggleAllExpansion={this.ToggleAllExpansion}
+          ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
+          ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
         />
       </div>
     );

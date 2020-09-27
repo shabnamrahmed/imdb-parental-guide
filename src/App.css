@@ -1,5 +1,5 @@
 html {
-  background-color: #2f3e46;
+  background-color: #081c15;
 }
 .main-container {
   display: flex;
@@ -14,12 +14,16 @@ html {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: #2f3e46;
+  background-color: #081c15;
 }
 .search-bar {
   width: 230px;
   height: 20px;
   border-radius: 5px;
+}
+.error-message {
+  color: red;
+  font-size: small;
 }
 .search-button {
   background-color: #52796f;

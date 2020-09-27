@@ -16,11 +16,6 @@
   padding: 10px;
   margin: auto;
 }
-.expand-collapse {
-  color: #52796f;
-  cursor: pointer;
-  text-align: end;
-}
 .expand-collapse:hover {
   filter: brightness(1.3);
   cursor: pointer;
@@ -33,10 +28,16 @@
   text-align: center;
   margin: 10px;
 }
+.section-heading:hover {
+  filter: brightness(1.3);
+  background-color: #52796f;
+  cursor: pointer;
+}
 .section-title-text {
   color: #cad2c5;
   font-weight: bold;
   font-size: 17px;
+  margin-bottom: 5px;
 }
 .section-title-text:hover {
   filter: brightness(1.3);
@@ -53,9 +54,15 @@
 }
 .entries-list {
   background-color: #354f52;
+  overflow-y: scroll;
+  max-height: 200px;
+}
+.section-summary-vote {
+  display: flex;
 }
 .guide-summary-text {
   color: #cad2c5;
+  margin-right: 20px;
 }
 .guide-vote-count-text {
   color: #cad2c5;

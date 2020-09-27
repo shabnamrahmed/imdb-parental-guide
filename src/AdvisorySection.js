@@ -7,25 +7,20 @@ class AdvisorySection extends React.Component {
       <div>
         {!!this.props.parentalGuides.length && (
           <div className="guides-heading">
-            Parental Guide for:{" "}
             <div className="selected-title">{this.props.selectedTitle}</div>
           </div>
         )}
         <div
           className={this.props.parentalGuides.length ? "guides-container" : ""}
         >
-          {!!this.props.parentalGuides.length && (
-            <div
-              className="expand-collapse"
-              onClick={this.props.ToggleAllExpansion}
-            >
-              Expand/Collapse All
-            </div>
-          )}
-
           <div>
             {!!this.props.parentalGuides.length && (
-              <div className="section-heading">Content Advisory:</div>
+              <div
+                className="section-heading"
+                onClick={this.props.ToggleContentAdvisoryExpansion}
+              >
+                Content Advisory
+              </div>
             )}
 
             {this.props.parentalGuides.map((item) => (
@@ -38,16 +33,19 @@ class AdvisorySection extends React.Component {
                 >
                   {item.sectionName}
                 </div>
+
                 <div
                   className={
                     item.isCollapsed ? "collapsed-entry" : "expanded-entry"
                   }
                 >
-                  <div className="guide-summary-text">
-                    {item.advisory.summary}
-                  </div>
-                  <div className="guide-vote-count-text">
-                    {item.advisory.voteCount}
+                  <div className="section-summary-vote">
+                    <div className="guide-summary-text">
+                      {item.advisory.summary}
+                    </div>
+                    <div className="guide-vote-count-text">
+                      {item.advisory.voteCount}
+                    </div>
                   </div>
                   <div>
                     <ul className="entries-list">
@@ -62,7 +60,12 @@ class AdvisorySection extends React.Component {
           </div>
           <div>
             {!!this.props.spoilerGuides.length && (
-              <div className="section-heading">Spoilers:</div>
+              <div
+                className="section-heading"
+                onClick={this.props.ToggleSpoilersExpansion}
+              >
+                Spoilers
+              </div>
             )}
 
             {this.props.spoilerGuides.map((item) => (
