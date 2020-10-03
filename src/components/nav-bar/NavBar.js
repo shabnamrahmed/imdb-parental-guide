@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { ReactComponent as BackIcon } from "../../icons/chevron-left-solid.svg";
+import { ReactComponent as SearchIcon } from "../../icons/search-solid.svg";
+import "./NavBar.css";
 
 NavBar.propTypes = {
   shouldshouldShowBackButton: PropTypes.bool,
@@ -23,11 +26,12 @@ export default function NavBar({
   onInputSubmit,
 }) {
   return (
-    <div className="search">
+    <div className="nav-bar-container">
       {shouldShowBackButton && (
-        <button className="back-button" onClick={onBackButtonClicked}>
-          Back
-        </button>
+        <BackIcon
+          className="back-button nav-icon"
+          onClick={onBackButtonClicked}
+        />
       )}
       <div>
         <input
@@ -40,9 +44,7 @@ export default function NavBar({
         {errorMessage && <div className="error-message">{errorMessage}</div>}
       </div>
 
-      <button className="search-button" onClick={onInputSubmit}>
-        Search
-      </button>
+      <SearchIcon className="search-button nav-icon" onClick={onInputSubmit} />
     </div>
   );
 }

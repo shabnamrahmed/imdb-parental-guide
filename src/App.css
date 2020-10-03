@@ -6,41 +6,7 @@ html {
   flex-direction: column;
   align-items: center;
 }
-.search {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  background-color: #081c15;
-}
-.search-bar {
-  width: 230px;
-  height: 20px;
-  border-radius: 5px;
-}
-.error-message {
-  color: red;
-  font-size: small;
-}
-.search-button {
-  background-color: #52796f;
-  color: #cad2c5;
-  border-width: 0;
-  margin-left: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.back-button {
-  background-color: #52796f;
-  color: #cad2c5;
-  border-width: 0;
-  margin-right: 5px;
-  border-radius: 5px;
-  cursor: pointer;
-}
+
 .text {
   color: #cad2c5;
   text-align: center;
