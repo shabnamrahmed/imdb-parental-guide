@@ -2,8 +2,8 @@ import React from "react";
 import axios from "axios";
 import { cloneDeep } from "lodash";
 import "./App.css";
-import AdvisorySection from "./AdvisorySection";
-import LoadingSpinner from "./LoadingSpinner";
+import AdvisorySection from "./components/advisory-section/AdvisorySection";
+import LoadingSpinner from "./components/loading-spinner/LoadingSpinner";
 
 const AddIdToSection = (section, id) => ({
   ...section,
