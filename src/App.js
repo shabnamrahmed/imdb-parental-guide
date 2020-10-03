@@ -194,7 +194,7 @@ class App extends React.Component {
         <div className="search">
           {!!this.state.parentalGuides.length && (
             <button className="back-button" onClick={this.CloseParentalGuide}>
-              Back
+              <i class="fa fa-chevron-left"></i>
             </button>
           )}
           <div>
@@ -215,7 +215,7 @@ class App extends React.Component {
           </div>
 
           <button className="search-button" onClick={this.Submit}>
-            Search
+            <i class="fa fa-search"></i>
           </button>
         </div>
         {this.state.noResultsFound && <div>No Results Found</div>}
@@ -246,6 +246,11 @@ class App extends React.Component {
           ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
           ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
         />
+
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+        ></link>
       </div>
     );
   }
