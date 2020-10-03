@@ -1,0 +1,37 @@
+.nav-bar-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: #081c15;
+  padding: 10px;
+}
+.search-bar {
+  width: 230px;
+  height: 20px;
+  border-radius: 5px;
+}
+.error-message {
+  color: red;
+  font-size: small;
+}
+.nav-icon {
+  background-color: #52796f;
+  color: #cad2c5;
+  border-width: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  padding-bottom: 3px;
+  padding: 7px;
+}
+.search-button {
+  margin-left: 5px;
+  width: 13px;
+}
+.back-button {
+  margin-right: 5px;
+  width: 10px;
+}
