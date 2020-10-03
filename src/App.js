@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import { cloneDeep } from "lodash";
 import "./App.css";
-import AdvisorySection from "./components/advisory-section/AdvisorySection";
+import AdvisorySections from "./components/advisory-sections/AdvisorySections";
+import NavBar from "./components/nav-bar/NavBar";
 import LoadingSpinner from "./components/loading-spinner/LoadingSpinner";
 
 const AddIdToSection = (section, id) => ({
@@ -84,50 +85,6 @@ class App extends React.Component {
     }
   };
 
-  ToggleAllExpansion = () => {
-    let newParentalGuides, newSpoilerGuides;
-
-    // check if any list is not isCollapsed
-    const isAnyParentalGuideOpen = this.state.parentalGuides.some(
-      (section) => !section.isCollapsed
-    );
-
-    const isAnySpoilerGuideOpen = this.state.spoilerGuides.some(
-      (section) => !section.isCollapsed
-    );
-
-    const isAnySectionOpen = isAnyParentalGuideOpen || isAnySpoilerGuideOpen;
-
-    //if something is expanded close everything
-    if (isAnySectionOpen) {
-      newParentalGuides = this.state.parentalGuides.map((section) => ({
-        ...section,
-        isCollapsed: true,
-      }));
-
-      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
-        ...section,
-        isCollapsed: true,
-      }));
-    }
-    //else collapse everything
-    else {
-      newParentalGuides = this.state.parentalGuides.map((section) => ({
-        ...section,
-        isCollapsed: false,
-      }));
-
-      newSpoilerGuides = this.state.spoilerGuides.map((section) => ({
-        ...section,
-        isCollapsed: false,
-      }));
-    }
-    this.setState({
-      parentalGuides: newParentalGuides,
-      spoilerGuides: newSpoilerGuides,
-    });
-  };
-
   ToggleContentAdvisoryExpansion = () => {
     let newParentalGuides;
 
@@ -191,58 +148,45 @@ class App extends React.Component {
   render() {
     return (
       <div className="main-container">
-        <div className="search">
-          {!!this.state.parentalGuides.length && (
-            <button className="back-button" onClick={this.CloseParentalGuide}>
-              Back
-            </button>
-          )}
-          <div>
-            <input
-              className="search-bar"
-              ref={this.searchBarRef}
-              value={this.state.inputValue}
-              onChange={(evt) =>
-                this.setState({
-                  inputValue: evt.target.value,
-                })
-              }
-              onKeyUp={this.BlurMobileKeyboardOnSubmit}
-            ></input>
-            {this.state.errorMessage && (
-              <div className="error-message">{this.state.errorMessage}</div>
-            )}
-          </div>
-
-          <button className="search-button" onClick={this.Submit}>
-            Search
-          </button>
-        </div>
+        <NavBar
+          shouldShowBackButton={!!this.state.parentalGuides.length}
+          onBackButtonClicked={this.CloseParentalGuide}
+          searchBarRef={this.searchBarRef}
+          searchInputValue={this.state.inputValue}
+          onInputValueChange={(evt) =>
+            this.setState({
+              inputValue: evt.target.value,
+            })
+          }
+          onInputKeyUp={this.BlurMobileKeyboardOnSubmit}
+          errorMessage={this.state.errorMessage}
+          onInputSubmit={this.Submit}
+        />
         {this.state.noResultsFound && <div>No Results Found</div>}
         {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
 
         {!!this.state.titleOptions.length &&
           !this.state.parentalGuides.length &&
           !this.state.isLoading && (
-            <div class="title-options">
+            <div className="title-options">
               {this.state.titleOptions.map((item) => (
                 <div
-                  class="option"
+                  key={item.title}
+                  className="option"
                   onClick={() => this.GetParentalGuide(item.id, item.title)}
                 >
-                  <img class="media-image" src={item.imageURL} alt="" />
-                  <div class="text">{item.title}</div>
+                  <img className="media-image" src={item.imageURL} alt="" />
+                  <div className="text">{item.title}</div>
                 </div>
               ))}
             </div>
           )}
 
-        <AdvisorySection
+        <AdvisorySections
           parentalGuides={this.state.parentalGuides}
           spoilerGuides={this.state.spoilerGuides}
           selectedTitle={this.state.selectedTitle}
           ToggleSectionExpansion={this.ToggleSectionExpansion}
-          ToggleAllExpansion={this.ToggleAllExpansion}
           ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
           ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
         />
