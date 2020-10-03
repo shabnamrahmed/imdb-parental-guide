@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 NavBar.propTypes = {
-  shouldshouldShowBackButton: PropTypes.bool.isRequired,
+  shouldshouldShowBackButton: PropTypes.bool,
   onBackButtonClicked: PropTypes.func.isRequired,
   searchBarRef: PropTypes.object,
   searchInputValue: PropTypes.string.isRequired,

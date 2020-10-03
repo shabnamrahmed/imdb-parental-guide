@@ -42,6 +42,7 @@ function AdvisorySections({
 
           {parentalGuides.map((item) => (
             <GuideSection
+              key={item.id}
               item={item}
               onToggle={() => ToggleSectionExpansion(item.id, true)}
             />
@@ -56,6 +57,7 @@ function AdvisorySections({
 
           {spoilerGuides.map((item) => (
             <GuideSection
+              key={item.id}
               item={item}
               onToggle={() => ToggleSectionExpansion(item.id)}
             />

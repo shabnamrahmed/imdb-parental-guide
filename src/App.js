@@ -162,6 +162,7 @@ class App extends React.Component {
           errorMessage={this.state.errorMessage}
           onInputSubmit={this.Submit}
         />
+
         {this.state.noResultsFound && <div>No Results Found</div>}
         {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
 

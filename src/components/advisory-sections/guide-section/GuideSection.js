@@ -42,7 +42,9 @@ export default function GuideSection({ item, onToggle }) {
         <div>
           <ul className="entries-list">
             {item.entries.map((entry) => (
-              <li className="guide-entry-text">{entry}</li>
+              <li key={entry} className="guide-entry-text">
+                {entry}
+              </li>
             ))}
           </ul>
         </div>
