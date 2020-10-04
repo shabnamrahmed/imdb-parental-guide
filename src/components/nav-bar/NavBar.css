@@ -15,7 +15,7 @@
   border-radius: 5px;
 }
 .error-message {
-  color: red;
+  color: #ca3737;
   font-size: small;
 }
 .nav-icon {
@@ -26,6 +26,7 @@
   cursor: pointer;
   padding-bottom: 3px;
   padding: 7px;
+  max-height: 13px;
 }
 .nav-icon:hover {
   filter: brightness(1.5);
