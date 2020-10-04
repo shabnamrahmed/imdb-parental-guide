@@ -22,16 +22,21 @@ html {
   display: flex;
   max-width: 750px;
   flex-wrap: wrap;
-  border: 5px solid #84a98c;
+  border: 1px solid #84a98c;
+  border-radius: 5px;
 }
 .option {
-  border: 1px dotted #84a98c;
+  border: 1px solid #84a98c;
   flex: 1;
   min-width: 25%;
   padding: 10px;
   cursor: pointer;
 }
 .option:hover {
-  filter: brightness(1.3);
-  background-color: #52796f;
+  filter: brightness(1.5);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.no-results-found {
+  color: red;
+  font-size: x-large;
 }

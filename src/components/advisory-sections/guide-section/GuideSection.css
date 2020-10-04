@@ -1,0 +1,32 @@
+.section-title-text {
+  color: #74c69d;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+.expanded-entry {
+  display: block;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+.collapsed-entry {
+  display: none;
+}
+.entries-list {
+  background-color: #1b4332;
+  overflow-y: auto;
+  max-height: 200px;
+}
+.section-summary-vote {
+  display: flex;
+}
+.guide-summary-text {
+  color: #d8f3dc;
+  margin-right: 20px;
+}
+.guide-vote-count-text {
+  color: #d8f3dc;
+}
+.guide-entry-text {
+  color: #d8f3dc;
+}

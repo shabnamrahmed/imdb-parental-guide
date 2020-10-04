@@ -27,6 +27,9 @@
   padding-bottom: 3px;
   padding: 7px;
 }
+.nav-icon:hover {
+  filter: brightness(1.5);
+}
 .search-button {
   margin-left: 5px;
   width: 13px;

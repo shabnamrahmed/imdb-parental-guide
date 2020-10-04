@@ -163,7 +163,9 @@ class App extends React.Component {
           onInputSubmit={this.Submit}
         />
 
-        {this.state.noResultsFound && <div>No Results Found</div>}
+        {this.state.noResultsFound && (
+          <div className="no-results-found">No Results Found</div>
+        )}
         {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
 
         {!!this.state.titleOptions.length &&
@@ -191,11 +193,6 @@ class App extends React.Component {
           ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
           ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
         />
-
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-        ></link>
       </div>
     );
   }

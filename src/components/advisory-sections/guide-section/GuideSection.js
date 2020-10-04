@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./GuideSection.css";
 
 export const guideSectionShape = PropTypes.shape({
   id: PropTypes.number.isRequired,

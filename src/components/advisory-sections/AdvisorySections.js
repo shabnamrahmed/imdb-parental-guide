@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GuideSection, { guideSectionShape } from "./guide-section/GuideSection";
+import { ReactComponent as ToggleIcon } from "../../icons/chevron-up-solid.svg";
 
 import "./AdvisorySections.css";
 
@@ -36,7 +37,17 @@ function AdvisorySections({
               className="section-heading"
               onClick={ToggleContentAdvisoryExpansion}
             >
-              Content Advisory
+              <div className="empty-div"></div>
+              <div className="section-heading-text">Content Advisory</div>
+              <div className="toggle-icon-container">
+                <ToggleIcon
+                  className={`toggle-icon ${
+                    parentalGuides.every((item) => item.isCollapsed)
+                      ? ""
+                      : "is-expanded"
+                  }`}
+                />
+              </div>
             </div>
           )}
 
@@ -51,7 +62,17 @@ function AdvisorySections({
         <div>
           {!!spoilerGuides.length && (
             <div className="section-heading" onClick={ToggleSpoilersExpansion}>
-              Spoilers
+              <div className="empty-div"></div>
+              <div className="section-heading-text">Spoilers</div>
+              <div className="toggle-icon-container">
+                <ToggleIcon
+                  className={`toggle-icon ${
+                    spoilerGuides.every((item) => item.isCollapsed)
+                      ? ""
+                      : "is-expanded"
+                  }`}
+                />
+              </div>
             </div>
           )}
 
