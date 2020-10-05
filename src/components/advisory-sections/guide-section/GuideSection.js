@@ -27,6 +27,8 @@ GuideSection.propTypes = {
   item: guideSectionShape,
 };
 
+const NO_ADVISORY_SUMMARY = "Severity?";
+
 export default function GuideSection({ item, onToggle }) {
   return (
     <div>
@@ -35,7 +37,7 @@ export default function GuideSection({ item, onToggle }) {
         <ToggleIcon isExpanded={!item.isCollapsed} />
       </div>
       <div className={`section-contents ${item.isCollapsed ? "hidden" : ""}`}>
-        {item.advisory && (
+        {item.advisory && item.advisory.summary !== NO_ADVISORY_SUMMARY && (
           <div className="section-summary-vote">
             <div className="guide-summary-text">{item.advisory.summary}</div>
             <div>{item.advisory.voteCount}</div>

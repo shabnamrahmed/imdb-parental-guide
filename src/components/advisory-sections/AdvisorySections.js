@@ -48,13 +48,15 @@ function AdvisorySections({
             </div>
           )}
 
-          {parentalGuides.map((item) => (
-            <GuideSection
-              key={item.id}
-              item={item}
-              onToggle={() => ToggleSectionExpansion(item.id, true)}
-            />
-          ))}
+          {parentalGuides
+            .filter((item) => !!item.entries.length)
+            .map((item) => (
+              <GuideSection
+                key={item.id}
+                item={item}
+                onToggle={() => ToggleSectionExpansion(item.id, true)}
+              />
+            ))}
         </div>
         <div>
           {!!spoilerGuides.length && (
@@ -69,13 +71,15 @@ function AdvisorySections({
             </div>
           )}
 
-          {spoilerGuides.map((item) => (
-            <GuideSection
-              key={item.id}
-              item={item}
-              onToggle={() => ToggleSectionExpansion(item.id)}
-            />
-          ))}
+          {spoilerGuides
+            .filter((item) => !!item.entries.length)
+            .map((item) => (
+              <GuideSection
+                key={item.id}
+                item={item}
+                onToggle={() => ToggleSectionExpansion(item.id)}
+              />
+            ))}
         </div>
       </div>
     </div>
