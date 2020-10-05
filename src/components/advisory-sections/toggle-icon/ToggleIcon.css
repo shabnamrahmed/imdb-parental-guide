@@ -1,0 +1,17 @@
+.toggle-icon-container {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 5px;
+}
+.toggle-icon {
+  width: 15px;
+  height: 15px;
+  transform: rotate(0deg);
+  transition: transform 0.5s;
+}
+.toggle-icon.is-expanded {
+  transform: rotate(180deg);
+  transition: transform 0.5s;
+}

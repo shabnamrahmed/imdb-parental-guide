@@ -1,9 +1,9 @@
 import React from "react";
 import "./LoadingSpinner.css";
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ isLoading }) {
   return (
-    <div className="sk-circle">
+    <div className={`sk-circle ${!isLoading ? "hidden" : ""}`}>
       <div className="sk-circle1 sk-child"></div>
       <div className="sk-circle2 sk-child"></div>
       <div className="sk-circle3 sk-child"></div>

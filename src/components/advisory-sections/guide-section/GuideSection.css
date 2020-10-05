@@ -1,32 +1,40 @@
-.section-title-text {
+.section-title-header {
+  display: flex;
+  flex-direction: row;
   color: #74c69d;
+}
+
+.section-title-text {
   font-weight: bold;
   font-size: 15px;
   margin-bottom: 5px;
 }
-.expanded-entry {
+
+.section-title-header .toggle-icon {
+  width: 8px;
+}
+.section-contents {
+  color: #d8f3dc;
   display: block;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
+  max-height: 500px;
+  transition: max-height 0.25s;
 }
-.collapsed-entry {
-  display: none;
+.section-contents.hidden {
+  max-height: 0;
+  transition: max-height 0.25s;
 }
 .entries-list {
-  background-color: #1b4332;
   overflow-y: auto;
   max-height: 200px;
+  border: 1px solid #84a98c;
+  border-radius: 1%;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 .section-summary-vote {
   display: flex;
 }
 .guide-summary-text {
-  color: #d8f3dc;
   margin-right: 20px;
-}
-.guide-vote-count-text {
-  color: #d8f3dc;
-}
-.guide-entry-text {
-  color: #d8f3dc;
 }

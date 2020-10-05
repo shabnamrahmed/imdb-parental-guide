@@ -7,36 +7,45 @@ html {
   align-items: center;
 }
 
-.text {
-  color: #cad2c5;
-  text-align: center;
+.main-content {
+  overflow-x: hidden;
 }
-.media-image {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.title-options {
-  margin-left: 20px;
-  margin-right: 20px;
-  display: flex;
-  max-width: 750px;
-  flex-wrap: wrap;
-  border: 1px solid #84a98c;
-  border-radius: 5px;
-}
-.option {
-  border: 1px solid #84a98c;
-  flex: 1;
-  min-width: 25%;
-  padding: 10px;
-  cursor: pointer;
-}
-.option:hover {
-  filter: brightness(1.5);
-  background-color: rgba(255, 255, 255, 0.2);
-}
+
 .no-results-found {
   color: #ca3737;
   font-size: x-large;
+}
+.instructions {
+  position: absolute;
+  top: 35%;
+}
+
+.regular-text {
+  color: #cad2c5;
+  text-align: center;
+}
+
+/*
+SCROLLBAR
+*/
+
+::-webkit-scrollbar {
+  width: 20px;
+  border-width: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #84a98c;
+  border-color: #081c15;
+  border-radius: 9px;
+  border-width: 2px 9px 2px 9px;
+  border-style: solid;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: #74c69d;
+  border-color: #081c15;
+  border-style: solid;
+  border-width: 1px 7px 1px 7px;
 }

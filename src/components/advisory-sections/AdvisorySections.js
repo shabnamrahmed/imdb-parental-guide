@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GuideSection, { guideSectionShape } from "./guide-section/GuideSection";
-import { ReactComponent as ToggleIcon } from "../../icons/chevron-up-solid.svg";
+import ToggleIcon from "./toggle-icon/ToggleIcon";
 
 import "./AdvisorySections.css";
 
@@ -22,15 +22,16 @@ function AdvisorySections({
   ToggleContentAdvisoryExpansion,
   ToggleSpoilersExpansion,
   ToggleSectionExpansion,
+  isVisible,
 }) {
   return (
-    <div>
+    <div className={`advisory-section-container ${!isVisible ? "hidden" : ""}`}>
       {!!parentalGuides.length && (
         <div className="guides-heading">
           <div className="selected-title">{selectedTitle}</div>
         </div>
       )}
-      <div className={parentalGuides.length ? "guides-container" : ""}>
+      <div className={"guides-container"}>
         <div>
           {!!parentalGuides.length && (
             <div
@@ -41,11 +42,7 @@ function AdvisorySections({
               <div className="section-heading-text">Content Advisory</div>
               <div className="toggle-icon-container">
                 <ToggleIcon
-                  className={`toggle-icon ${
-                    parentalGuides.every((item) => item.isCollapsed)
-                      ? ""
-                      : "is-expanded"
-                  }`}
+                  isExpanded={parentalGuides.some((item) => !item.isCollapsed)}
                 />
               </div>
             </div>
@@ -66,11 +63,7 @@ function AdvisorySections({
               <div className="section-heading-text">Spoilers</div>
               <div className="toggle-icon-container">
                 <ToggleIcon
-                  className={`toggle-icon ${
-                    spoilerGuides.every((item) => item.isCollapsed)
-                      ? ""
-                      : "is-expanded"
-                  }`}
+                  isExpanded={spoilerGuides.some((item) => !item.isCollapsed)}
                 />
               </div>
             </div>
