@@ -26,7 +26,7 @@ const API_URL = "https://imdb-parental-advisory.xsaudahmed.repl.co";
 const SWIPE_THRESHOLD = 125;
 
 class App extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.searchBarRef = React.createRef();
   }
@@ -198,7 +198,7 @@ class App extends React.Component {
       <div className="main-container">
         {!this.state.titleOptions.length && !this.state.isLoading && (
           <div className="instructions regular-text">
-            Please enter a movie or TV show name
+            Please enter a movie or TV show title
           </div>
         )}
         <NavBar
