@@ -13,6 +13,8 @@ NavBar.propTypes = {
   onInputKeyUp: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   onInputSubmit: PropTypes.func.isRequired,
+  isCentered: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default function NavBar({
@@ -24,9 +26,15 @@ export default function NavBar({
   onInputKeyUp,
   errorMessage,
   onInputSubmit,
+  isCentered,
+  isLoading,
 }) {
   return (
-    <div className="nav-bar-container">
+    <div
+      className={`nav-bar-container 
+      ${isCentered ? "centered" : ""} 
+      ${isLoading ? "hidden" : ""}`}
+    >
       {shouldShowBackButton && (
         <BackIcon
           className="back-button nav-icon"

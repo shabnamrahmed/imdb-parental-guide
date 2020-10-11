@@ -1,16 +1,30 @@
 import React from "react";
 import axios from "axios";
 import { cloneDeep } from "lodash";
-import "./App.css";
+
+import TitleOptions from "./components/title-options/TitleOptions";
 import AdvisorySections from "./components/advisory-sections/AdvisorySections";
 import NavBar from "./components/nav-bar/NavBar";
 import LoadingSpinner from "./components/loading-spinner/LoadingSpinner";
+
+import "./App.css";
 
 const AddIdToSection = (section, id) => ({
   ...section,
   isCollapsed: true,
   id,
 });
+
+const STEPS = {
+  NO_TITLE_SELECTED: "NO_TITLE_SELECTED",
+  SELECT_TITLE: "SELECT_TITLE",
+  VIEW_GUIDES: "VIEW_GUIDES",
+};
+
+const API_URL = "https://imdb-parental-advisory.xsaudahmed.repl.co";
+
+const SWIPE_THRESHOLD = 125;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,9 +40,11 @@ class App extends React.Component {
     selectedTitle: "",
     errorMessage: "",
     noResultsFound: false,
+    currentStep: STEPS.NO_TITLE_SELECTED,
+    touchStartX: 0,
   };
 
-  Submit = () => {
+  submitSearchInput = () => {
     this.setState({ errorMessage: "", noResultsFound: false });
     if (this.state.inputValue.length) {
       this.setState({
@@ -37,7 +53,7 @@ class App extends React.Component {
         spoilerGuides: [],
       });
       axios
-        .post("https://imdb-parental-advisory.xsaudahmed.repl.co/findTitles", {
+        .post(`${API_URL}/findTitles`, {
           titleName: this.state.inputValue,
         })
         .then((res) => {
@@ -45,11 +61,31 @@ class App extends React.Component {
             titleOptions: res.data,
             isLoading: false,
             noResultsFound: !res.data.length,
+            currentStep: STEPS.SELECT_TITLE,
           });
         });
     } else {
       this.setState({ errorMessage: "*Please enter a title" });
     }
+  };
+
+  addTouchHandlers = () => {
+    document.querySelector("body").ontouchstart = (e) =>
+      this.setState({ touchStartX: e.changedTouches[0].clientX });
+
+    document.querySelector("body").ontouchend = (e) => {
+      if (
+        e.changedTouches[0].clientX - this.state.touchStartX >
+        SWIPE_THRESHOLD
+      ) {
+        this.goToSelectTitleStep();
+      }
+    };
+  };
+
+  removeTouchHandlers = () => {
+    document.querySelector("body").ontouchstart = null;
+    document.querySelector("body").ontouchend = null;
   };
 
   GetParentalGuide = (titleId, titleSelection) => {
@@ -58,29 +94,41 @@ class App extends React.Component {
       selectedTitle: titleSelection,
     });
     axios
-      .post("https://imdb-parental-advisory.xsaudahmed.repl.co/parentalGuide", {
+      .post(`${API_URL}/parentalGuide`, {
         titleId,
       })
-      .then((res) =>
+      .then((res) => {
         this.setState({
           parentalGuides: res.data.parentalGuide.map(AddIdToSection),
           spoilerGuides: res.data.spoilersGuide.map(AddIdToSection),
-          isLoading: false,
-        })
-      );
+        });
+        setTimeout(
+          () =>
+            this.setState({
+              currentStep: STEPS.VIEW_GUIDES,
+              isLoading: false,
+            }),
+          250
+        );
+        this.addTouchHandlers();
+      });
   };
 
-  CloseParentalGuide = () => {
+  goToSelectTitleStep = () => {
+    this.removeTouchHandlers();
     this.setState({
-      parentalGuides: [],
-      spoilerGuides: [],
-      selectedTitle: "",
+      currentStep: STEPS.SELECT_TITLE,
+      touchStartX: 0,
     });
+    setTimeout(
+      () => this.setState({ parentalGuides: [], spoilerGuides: [] }),
+      250
+    );
   };
 
   BlurMobileKeyboardOnSubmit = (e) => {
     if (e.key === "Enter") {
-      this.Submit();
+      this.submitSearchInput();
       this.searchBarRef.current.blur();
     }
   };
@@ -148,9 +196,16 @@ class App extends React.Component {
   render() {
     return (
       <div className="main-container">
+        {!this.state.titleOptions.length && !this.state.isLoading && (
+          <div className="instructions regular-text">
+            Please enter a movie or TV show name
+          </div>
+        )}
         <NavBar
-          shouldShowBackButton={!!this.state.parentalGuides.length}
-          onBackButtonClicked={this.CloseParentalGuide}
+          isCentered={!this.state.titleOptions.length}
+          isLoading={this.state.isLoading}
+          shouldShowBackButton={this.state.currentStep === STEPS.VIEW_GUIDES}
+          onBackButtonClicked={this.goToSelectTitleStep}
           searchBarRef={this.searchBarRef}
           searchInputValue={this.state.inputValue}
           onInputValueChange={(evt) =>
@@ -160,39 +215,32 @@ class App extends React.Component {
           }
           onInputKeyUp={this.BlurMobileKeyboardOnSubmit}
           errorMessage={this.state.errorMessage}
-          onInputSubmit={this.Submit}
+          onInputSubmit={this.submitSearchInput}
         />
-
         {this.state.noResultsFound && (
           <div className="no-results-found">No Results Found</div>
         )}
-        {this.state.isLoading && <div>{<LoadingSpinner />}</div>}
-
-        {!!this.state.titleOptions.length &&
-          !this.state.parentalGuides.length &&
-          !this.state.isLoading && (
-            <div className="title-options">
-              {this.state.titleOptions.map((item) => (
-                <div
-                  key={item.title}
-                  className="option"
-                  onClick={() => this.GetParentalGuide(item.id, item.title)}
-                >
-                  <img className="media-image" src={item.imageURL} alt="" />
-                  <div className="text">{item.title}</div>
-                </div>
-              ))}
-            </div>
-          )}
-
-        <AdvisorySections
-          parentalGuides={this.state.parentalGuides}
-          spoilerGuides={this.state.spoilerGuides}
-          selectedTitle={this.state.selectedTitle}
-          ToggleSectionExpansion={this.ToggleSectionExpansion}
-          ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
-          ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
+        <LoadingSpinner isLoading={this.state.isLoading} />
+        <TitleOptions
+          options={this.state.titleOptions}
+          onTitleClick={this.GetParentalGuide}
+          isVisible={
+            !!this.state.titleOptions.length &&
+            this.state.currentStep === STEPS.SELECT_TITLE &&
+            !this.state.isLoading
+          }
         />
+        {this.state.parentalGuides.length > 0 && (
+          <AdvisorySections
+            isVisible={this.state.currentStep === STEPS.VIEW_GUIDES}
+            parentalGuides={this.state.parentalGuides}
+            spoilerGuides={this.state.spoilerGuides}
+            selectedTitle={this.state.selectedTitle}
+            ToggleSectionExpansion={this.ToggleSectionExpansion}
+            ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
+            ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
+          />
+        )}
       </div>
     );
   }

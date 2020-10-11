@@ -1,0 +1,40 @@
+.title-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.options-container {
+  opacity: 1;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: flex;
+  max-width: 750px;
+  flex-wrap: wrap;
+  border: 1px solid #84a98c;
+  border-radius: 5px;
+  transform: translateX(0px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.options-container.hidden {
+  height: 0;
+  opacity: 0;
+  transform: translateX(-1500px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.title-option-container {
+  border: 1px solid #84a98c;
+  flex: 1;
+  min-width: 25%;
+  padding: 10px;
+  cursor: pointer;
+  filter: brightness(1);
+}
+
+.title-option-container:hover {
+  filter: brightness(1.5);
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: background-color 0.25s, brightness 0.25s;
+}

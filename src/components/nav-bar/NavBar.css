@@ -1,4 +1,5 @@
 .nav-bar-container {
+  opacity: 0.95;
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -8,6 +9,19 @@
   width: 100%;
   background-color: #081c15;
   padding: 10px;
+  transition: opacity 0.25s ease-out;
+  z-index: 100;
+}
+
+.nav-bar-container.centered {
+  position: absolute;
+  top: 40%;
+  margin-top: 0;
+}
+
+.nav-bar-container.hidden {
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
 }
 .search-bar {
   width: 230px;

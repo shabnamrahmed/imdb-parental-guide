@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GuideSection, { guideSectionShape } from "./guide-section/GuideSection";
-import { ReactComponent as ToggleIcon } from "../../icons/chevron-up-solid.svg";
+import ToggleIcon from "./toggle-icon/ToggleIcon";
 
 import "./AdvisorySections.css";
 
@@ -22,15 +22,16 @@ function AdvisorySections({
   ToggleContentAdvisoryExpansion,
   ToggleSpoilersExpansion,
   ToggleSectionExpansion,
+  isVisible,
 }) {
   return (
-    <div>
+    <div className={`advisory-section-container ${!isVisible ? "hidden" : ""}`}>
       {!!parentalGuides.length && (
         <div className="guides-heading">
           <div className="selected-title">{selectedTitle}</div>
         </div>
       )}
-      <div className={parentalGuides.length ? "guides-container" : ""}>
+      <div className={"guides-container"}>
         <div>
           {!!parentalGuides.length && (
             <div
@@ -41,23 +42,21 @@ function AdvisorySections({
               <div className="section-heading-text">Content Advisory</div>
               <div className="toggle-icon-container">
                 <ToggleIcon
-                  className={`toggle-icon ${
-                    parentalGuides.every((item) => item.isCollapsed)
-                      ? ""
-                      : "is-expanded"
-                  }`}
+                  isExpanded={parentalGuides.some((item) => !item.isCollapsed)}
                 />
               </div>
             </div>
           )}
 
-          {parentalGuides.map((item) => (
-            <GuideSection
-              key={item.id}
-              item={item}
-              onToggle={() => ToggleSectionExpansion(item.id, true)}
-            />
-          ))}
+          {parentalGuides
+            .filter((item) => !!item.entries.length)
+            .map((item) => (
+              <GuideSection
+                key={item.id}
+                item={item}
+                onToggle={() => ToggleSectionExpansion(item.id, true)}
+              />
+            ))}
         </div>
         <div>
           {!!spoilerGuides.length && (
@@ -66,23 +65,21 @@ function AdvisorySections({
               <div className="section-heading-text">Spoilers</div>
               <div className="toggle-icon-container">
                 <ToggleIcon
-                  className={`toggle-icon ${
-                    spoilerGuides.every((item) => item.isCollapsed)
-                      ? ""
-                      : "is-expanded"
-                  }`}
+                  isExpanded={spoilerGuides.some((item) => !item.isCollapsed)}
                 />
               </div>
             </div>
           )}
 
-          {spoilerGuides.map((item) => (
-            <GuideSection
-              key={item.id}
-              item={item}
-              onToggle={() => ToggleSectionExpansion(item.id)}
-            />
-          ))}
+          {spoilerGuides
+            .filter((item) => !!item.entries.length)
+            .map((item) => (
+              <GuideSection
+                key={item.id}
+                item={item}
+                onToggle={() => ToggleSectionExpansion(item.id)}
+              />
+            ))}
         </div>
       </div>
     </div>
