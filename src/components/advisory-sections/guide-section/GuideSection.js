@@ -8,7 +8,7 @@ import "./GuideSection.css";
 export const guideSectionShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   isCollapsed: PropTypes.bool.isRequired,
-  sectionName: PropTypes.string.isRequired,
+  sectionName: PropTypes.string,
   /**
    * entries may not exist
    */

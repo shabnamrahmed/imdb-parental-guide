@@ -60,6 +60,14 @@
   background-color: rgba(255, 255, 255, 0.2);
   transition: background-color 0.25s, brightness 0.25s;
 }
+.error-message {
+  color: #ca3737;
+  font-size: small;
+  text-align: center;
+}
+.error-link {
+  color: #ca3737;
+}
 @media (min-width: 768px) {
   .guides-container {
     width: 500px;

@@ -13,6 +13,7 @@ AdvisorySections.propTypes = {
   ToggleContentAdvisoryExpansion: PropTypes.func.isRequired,
   ToggleSpoilersExpansion: PropTypes.func.isRequired,
   ToggleSectionExpansion: PropTypes.func.isRequired,
+  selectedTitleURL: PropTypes.string
 };
 
 function AdvisorySections({
@@ -23,6 +24,7 @@ function AdvisorySections({
   ToggleSpoilersExpansion,
   ToggleSectionExpansion,
   isVisible,
+  selectedTitleURL
 }) {
   return (
     <div className={`advisory-section-container ${!isVisible ? "hidden" : ""}`}>
@@ -47,7 +49,17 @@ function AdvisorySections({
               </div>
             </div>
           )}
+          {parentalGuides.every(item => !item.entries.length) &&
+            <div className="error-message">
+              <span>No Content Advisory Found For <a
+                className="error-link"
+                href={selectedTitleURL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >This Title</a></span>
 
+            </div>
+          }
           {parentalGuides
             .filter((item) => !!item.entries.length)
             .map((item) => (

@@ -42,6 +42,7 @@ class App extends React.Component {
     noResultsFound: false,
     currentStep: STEPS.NO_TITLE_SELECTED,
     touchStartX: 0,
+    selectedTitleURL: null
   };
 
   submitSearchInput = () => {
@@ -101,6 +102,7 @@ class App extends React.Component {
         this.setState({
           parentalGuides: res.data.parentalGuide.map(AddIdToSection),
           spoilerGuides: res.data.spoilersGuide.map(AddIdToSection),
+          selectedTitleURL: res.data.selectedTitleURL
         });
         setTimeout(
           () =>
@@ -239,6 +241,7 @@ class App extends React.Component {
             ToggleSectionExpansion={this.ToggleSectionExpansion}
             ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
             ToggleSpoilersExpansion={this.ToggleSpoilersExpansion}
+            selectedTitleURL={this.state.selectedTitleURL}
           />
         )}
       </div>
