@@ -23,6 +23,8 @@ const STEPS = {
 
 const API_URL = "https://imdb-parental-advisory.xsaudahmed.repl.co";
 
+const RATINGS_API_URL = 'http://157.245.8.180:3000/getRatings'
+
 const SWIPE_THRESHOLD = 125;
 
 class App extends React.Component {
@@ -89,31 +91,40 @@ class App extends React.Component {
     document.querySelector("body").ontouchend = null;
   };
 
-  GetParentalGuide = (titleId, titleSelection) => {
+  GetParentalGuide = async (titleId, titleSelection) => {
     this.setState({
       isLoading: true,
       selectedTitle: titleSelection,
     });
-    axios
-      .post(`${API_URL}/parentalGuide`, {
-        titleId,
-      })
-      .then((res) => {
-        this.setState({
-          parentalGuides: res.data.parentalGuide.map(AddIdToSection),
-          spoilerGuides: res.data.spoilersGuide.map(AddIdToSection),
-          selectedTitleURL: res.data.selectedTitleURL
-        });
-        setTimeout(
-          () =>
-            this.setState({
-              currentStep: STEPS.VIEW_GUIDES,
-              isLoading: false,
-            }),
-          250
-        );
-        this.addTouchHandlers();
+    try {
+      const [parentalGuideResponse, ratingResponse] = await Promise.all([
+        axios.post(`${API_URL}/parentalGuide`, {
+          titleId,
+        }),
+        axios.post(RATINGS_API_URL, { titleId }),
+      ]);
+      this.setState({
+        parentalGuides: parentalGuideResponse.data.parentalGuide.map(
+          AddIdToSection
+        ),
+        spoilerGuides: parentalGuideResponse.data.spoilersGuide.map(
+          AddIdToSection
+        ),
+        selectedTitleURL: parentalGuideResponse.data.selectedTitleURL,
+        selectedTitleRatings: ratingResponse.data.Ratings,
       });
+      setTimeout(
+        () =>
+          this.setState({
+            currentStep: STEPS.VIEW_GUIDES,
+            isLoading: false,
+          }),
+        250
+      );
+      this.addTouchHandlers();
+    } catch (error) {
+      // TODO: handle error
+    }
   };
 
   goToSelectTitleStep = () => {
@@ -237,6 +248,7 @@ class App extends React.Component {
             isVisible={this.state.currentStep === STEPS.VIEW_GUIDES}
             parentalGuides={this.state.parentalGuides}
             spoilerGuides={this.state.spoilerGuides}
+            ratings={this.state.selectedTitleRatings}
             selectedTitle={this.state.selectedTitle}
             ToggleSectionExpansion={this.ToggleSectionExpansion}
             ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}
