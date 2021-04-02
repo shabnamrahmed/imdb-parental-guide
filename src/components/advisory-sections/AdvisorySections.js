@@ -38,10 +38,10 @@ function AdvisorySections({
   ToggleSpoilersExpansion,
   ToggleSectionExpansion,
   isVisible,
-  selectedTitleURL
+  selectedTitleURL,
 }) {
   return (
-    <div className={`advisory-section-container ${!isVisible ? "hidden" : ""}`}>
+    <div className={`advisory-section-container ${!isVisible ? 'hidden' : ''}`}>
       {!!parentalGuides.length && (
         <div className="guides-heading">
           <div className="selected-title">{selectedTitle}</div>
@@ -73,17 +73,21 @@ function AdvisorySections({
               </div>
             </div>
           )}
-          {parentalGuides.every(item => !item.entries.length) &&
+          {parentalGuides.every((item) => !item.entries.length) && (
             <div className="error-message">
-              <span>No Content Advisory Found For <a
-                className="error-link"
-                href={selectedTitleURL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >This Title</a></span>
-
+              <span>
+                No Content Advisory Found For{' '}
+                <a
+                  className="error-link"
+                  href={selectedTitleURL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  This Title
+                </a>
+              </span>
             </div>
-          }
+          )}
           {parentalGuides
             .filter((item) => !!item.entries.length)
             .map((item) => (
