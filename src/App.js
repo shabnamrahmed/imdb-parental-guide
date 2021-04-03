@@ -23,8 +23,6 @@ const STEPS = {
 
 const API_URL = 'https://imdb-parental-advisory.xsaudahmed.repl.co';
 
-const RATINGS_API_URL = 'http://157.245.8.180:3000/getRatings';
-
 const SWIPE_THRESHOLD = 125;
 
 class App extends React.Component {
@@ -101,7 +99,7 @@ class App extends React.Component {
         axios.post(`${API_URL}/parentalGuide`, {
           titleId,
         }),
-        axios.post(RATINGS_API_URL, { titleId }),
+        axios.post(`${API_URL}/getRatings`, { titleId }),
       ]);
       this.setState({
         parentalGuides: parentalGuideResponse.data.parentalGuide.map(
