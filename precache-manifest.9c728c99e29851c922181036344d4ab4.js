@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "07a67b33f88d96111c22df562f098d61",
+    "revision": "14053e7d8471f5c4f52748eb7b9598ca",
     "url": "/imdb-parental-guide/index.html"
   },
   {
-    "revision": "2609fabf0567f914024f",
-    "url": "/imdb-parental-guide/static/css/main.cbe4f23f.chunk.css"
+    "revision": "530d96e916fe658cdc77",
+    "url": "/imdb-parental-guide/static/css/main.f67692bf.chunk.css"
   },
   {
-    "revision": "d3f6bb222dae51a59938",
-    "url": "/imdb-parental-guide/static/js/2.3a27d2d4.chunk.js"
+    "revision": "3d5bf94cf09f4ca5496a",
+    "url": "/imdb-parental-guide/static/js/2.568636a5.chunk.js"
   },
   {
     "revision": "90565ba0b43e1b95d2876295dfd7014d",
-    "url": "/imdb-parental-guide/static/js/2.3a27d2d4.chunk.js.LICENSE.txt"
+    "url": "/imdb-parental-guide/static/js/2.568636a5.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "2609fabf0567f914024f",
-    "url": "/imdb-parental-guide/static/js/main.f0d496d3.chunk.js"
+    "revision": "530d96e916fe658cdc77",
+    "url": "/imdb-parental-guide/static/js/main.dcf36577.chunk.js"
   },
   {
     "revision": "bee59a4454ef26d6d29e",
