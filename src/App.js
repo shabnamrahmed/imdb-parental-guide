@@ -1,13 +1,13 @@
-import React from "react";
-import axios from "axios";
-import { cloneDeep } from "lodash";
+import React from 'react';
+import axios from 'axios';
+import { cloneDeep } from 'lodash';
 
-import TitleOptions from "./components/title-options/TitleOptions";
-import AdvisorySections from "./components/advisory-sections/AdvisorySections";
-import NavBar from "./components/nav-bar/NavBar";
-import LoadingSpinner from "./components/loading-spinner/LoadingSpinner";
+import TitleOptions from './components/title-options/TitleOptions';
+import AdvisorySections from './components/advisory-sections/AdvisorySections';
+import NavBar from './components/nav-bar/NavBar';
+import LoadingSpinner from './components/loading-spinner/LoadingSpinner';
 
-import "./App.css";
+import './App.css';
 
 const AddIdToSection = (section, id) => ({
   ...section,
@@ -16,37 +16,39 @@ const AddIdToSection = (section, id) => ({
 });
 
 const STEPS = {
-  NO_TITLE_SELECTED: "NO_TITLE_SELECTED",
-  SELECT_TITLE: "SELECT_TITLE",
-  VIEW_GUIDES: "VIEW_GUIDES",
+  NO_TITLE_SELECTED: 'NO_TITLE_SELECTED',
+  SELECT_TITLE: 'SELECT_TITLE',
+  VIEW_GUIDES: 'VIEW_GUIDES',
 };
 
-const API_URL = "https://imdb-parental-advisory.xsaudahmed.repl.co";
+const API_URL = 'https://imdb-parental-advisory.xsaudahmed.repl.co';
+
+const RATINGS_API_URL = 'http://157.245.8.180:3000/getRatings';
 
 const SWIPE_THRESHOLD = 125;
 
 class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.searchBarRef = React.createRef();
   }
 
   state = {
-    inputValue: "",
+    inputValue: '',
     titleOptions: [],
     parentalGuides: [],
     spoilerGuides: [],
     isLoading: false,
-    selectedTitle: "",
-    errorMessage: "",
+    selectedTitle: '',
+    errorMessage: '',
     noResultsFound: false,
     currentStep: STEPS.NO_TITLE_SELECTED,
     touchStartX: 0,
-    selectedTitleURL: null
+    selectedTitleURL: null,
   };
 
   submitSearchInput = () => {
-    this.setState({ errorMessage: "", noResultsFound: false });
+    this.setState({ errorMessage: '', noResultsFound: false });
     if (this.state.inputValue.length) {
       this.setState({
         isLoading: true,
@@ -66,15 +68,15 @@ class App extends React.Component {
           });
         });
     } else {
-      this.setState({ errorMessage: "*Please enter a title" });
+      this.setState({ errorMessage: '*Please enter a title' });
     }
   };
 
   addTouchHandlers = () => {
-    document.querySelector("body").ontouchstart = (e) =>
+    document.querySelector('body').ontouchstart = (e) =>
       this.setState({ touchStartX: e.changedTouches[0].clientX });
 
-    document.querySelector("body").ontouchend = (e) => {
+    document.querySelector('body').ontouchend = (e) => {
       if (
         e.changedTouches[0].clientX - this.state.touchStartX >
         SWIPE_THRESHOLD
@@ -85,35 +87,44 @@ class App extends React.Component {
   };
 
   removeTouchHandlers = () => {
-    document.querySelector("body").ontouchstart = null;
-    document.querySelector("body").ontouchend = null;
+    document.querySelector('body').ontouchstart = null;
+    document.querySelector('body').ontouchend = null;
   };
 
-  GetParentalGuide = (titleId, titleSelection) => {
+  GetParentalGuide = async (titleId, titleSelection) => {
     this.setState({
       isLoading: true,
       selectedTitle: titleSelection,
     });
-    axios
-      .post(`${API_URL}/parentalGuide`, {
-        titleId,
-      })
-      .then((res) => {
-        this.setState({
-          parentalGuides: res.data.parentalGuide.map(AddIdToSection),
-          spoilerGuides: res.data.spoilersGuide.map(AddIdToSection),
-          selectedTitleURL: res.data.selectedTitleURL
-        });
-        setTimeout(
-          () =>
-            this.setState({
-              currentStep: STEPS.VIEW_GUIDES,
-              isLoading: false,
-            }),
-          250
-        );
-        this.addTouchHandlers();
+    try {
+      const [parentalGuideResponse, ratingResponse] = await Promise.all([
+        axios.post(`${API_URL}/parentalGuide`, {
+          titleId,
+        }),
+        axios.post(RATINGS_API_URL, { titleId }),
+      ]);
+      this.setState({
+        parentalGuides: parentalGuideResponse.data.parentalGuide.map(
+          AddIdToSection
+        ),
+        spoilerGuides: parentalGuideResponse.data.spoilersGuide.map(
+          AddIdToSection
+        ),
+        selectedTitleURL: parentalGuideResponse.data.selectedTitleURL,
+        selectedTitleRatings: ratingResponse.data.Ratings,
       });
+      setTimeout(
+        () =>
+          this.setState({
+            currentStep: STEPS.VIEW_GUIDES,
+            isLoading: false,
+          }),
+        250
+      );
+      this.addTouchHandlers();
+    } catch (error) {
+      // TODO: handle error
+    }
   };
 
   goToSelectTitleStep = () => {
@@ -129,7 +140,7 @@ class App extends React.Component {
   };
 
   BlurMobileKeyboardOnSubmit = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.submitSearchInput();
       this.searchBarRef.current.blur();
     }
@@ -237,6 +248,7 @@ class App extends React.Component {
             isVisible={this.state.currentStep === STEPS.VIEW_GUIDES}
             parentalGuides={this.state.parentalGuides}
             spoilerGuides={this.state.spoilerGuides}
+            ratings={this.state.selectedTitleRatings}
             selectedTitle={this.state.selectedTitle}
             ToggleSectionExpansion={this.ToggleSectionExpansion}
             ToggleContentAdvisoryExpansion={this.ToggleContentAdvisoryExpansion}

@@ -73,3 +73,22 @@
     width: 500px;
   }
 }
+
+.ratings {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ratings img {
+  height: 50%;
+}
+
+.rating-container {
+  display: flex;
+  color: #d8f3dc;
+  height: 34px;
+}
+
+.rating-value {
+  padding-left: 5px;
+}
