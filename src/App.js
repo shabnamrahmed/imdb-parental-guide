@@ -102,14 +102,12 @@ class App extends React.Component {
         axios.post(`${API_URL}/getRatings`, { titleId }),
       ]);
       this.setState({
-        parentalGuides: parentalGuideResponse.data.parentalGuide.map(
-          AddIdToSection
-        ),
-        spoilerGuides: parentalGuideResponse.data.spoilersGuide.map(
-          AddIdToSection
-        ),
+        parentalGuides:
+          parentalGuideResponse.data.parentalGuide.map(AddIdToSection),
+        spoilerGuides:
+          parentalGuideResponse.data.spoilersGuide.map(AddIdToSection),
         selectedTitleURL: parentalGuideResponse.data.selectedTitleURL,
-        selectedTitleRatings: ratingResponse.data.Ratings,
+        selectedTitleRatings: ratingResponse.data.Ratings || [],
       });
       setTimeout(
         () =>
