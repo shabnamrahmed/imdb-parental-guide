@@ -43,6 +43,16 @@ class App extends React.Component {
     currentStep: STEPS.NO_TITLE_SELECTED,
     touchStartX: 0,
     selectedTitleURL: null,
+    titleId: null,
+  };
+
+  componentDidMount = () => {
+    const initialTitleId = Object.fromEntries(
+      new URLSearchParams(window.location.search).entries()
+    ).title;
+    if (initialTitleId) {
+      this.GetParentalGuide(initialTitleId);
+    }
   };
 
   submitSearchInput = () => {
@@ -79,7 +89,7 @@ class App extends React.Component {
         e.changedTouches[0].clientX - this.state.touchStartX >
         SWIPE_THRESHOLD
       ) {
-        this.goToSelectTitleStep();
+        this.handleGoBack();
       }
     };
   };
@@ -93,6 +103,7 @@ class App extends React.Component {
     this.setState({
       isLoading: true,
       selectedTitle: titleSelection,
+      titleId,
     });
     try {
       const [parentalGuideResponse, ratingResponse] = await Promise.all([
@@ -108,6 +119,7 @@ class App extends React.Component {
           parentalGuideResponse.data.spoilersGuide.map(AddIdToSection),
         selectedTitleURL: parentalGuideResponse.data.selectedTitleURL,
         selectedTitleRatings: ratingResponse.data.Ratings || [],
+        selectedTitle: titleSelection || parentalGuideResponse.data.title,
       });
       setTimeout(
         () =>
@@ -123,14 +135,24 @@ class App extends React.Component {
     }
   };
 
-  goToSelectTitleStep = () => {
+  handleGoBack = () => {
     this.removeTouchHandlers();
-    this.setState({
-      currentStep: STEPS.SELECT_TITLE,
-      touchStartX: 0,
-    });
+    if (this.state.titleOptions.length) {
+      this.setState({
+        currentStep: STEPS.SELECT_TITLE,
+        touchStartX: 0,
+      });
+    } else {
+      this.setState({
+        currentStep: STEPS.NO_TITLE_SELECTED,
+        selectedTitle: '',
+        touchStartX: 0,
+        titleId: null,
+      });
+    }
     setTimeout(
-      () => this.setState({ parentalGuides: [], spoilerGuides: [] }),
+      () =>
+        this.setState({ parentalGuides: [], spoilerGuides: [], titleId: null }),
       250
     );
   };
@@ -205,16 +227,21 @@ class App extends React.Component {
   render() {
     return (
       <div className="main-container">
-        {!this.state.titleOptions.length && !this.state.isLoading && (
-          <div className="instructions regular-text">
-            Please enter a movie or TV show title
-          </div>
-        )}
+        {!this.state.titleOptions.length &&
+          !this.state.isLoading &&
+          !this.state.selectedTitle && (
+            <div className="instructions regular-text">
+              Please enter a movie or TV show title
+            </div>
+          )}
         <NavBar
-          isCentered={!this.state.titleOptions.length}
+          isCentered={
+            !this.state.titleOptions.length && !this.state.selectedTitle
+          }
           isLoading={this.state.isLoading}
           shouldShowBackButton={this.state.currentStep === STEPS.VIEW_GUIDES}
-          onBackButtonClicked={this.goToSelectTitleStep}
+          shouldShowLinkIcon={!!this.state.selectedTitle}
+          onBackButtonClicked={this.handleGoBack}
           searchBarRef={this.searchBarRef}
           searchInputValue={this.state.inputValue}
           onInputValueChange={(evt) =>
@@ -225,6 +252,7 @@ class App extends React.Component {
           onInputKeyUp={this.BlurMobileKeyboardOnSubmit}
           errorMessage={this.state.errorMessage}
           onInputSubmit={this.submitSearchInput}
+          titleId={this.state.titleId}
         />
         {this.state.noResultsFound && (
           <div className="no-results-found">No Results Found</div>

@@ -23,6 +23,11 @@
   opacity: 0;
   transition: opacity 0.25s ease-out;
 }
+
+.nav-bar-container.title-selected-page {
+  margin-left: 18px;
+}
+
 .search-bar {
   width: 230px;
   height: 20px;
@@ -45,11 +50,49 @@
 .nav-icon:hover {
   filter: brightness(1.5);
 }
-.search-button {
+.search-button,
+.link-button {
   margin-left: 5px;
   width: 13px;
 }
 .back-button {
   margin-right: 5px;
   width: 10px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 90px;
+  background-color: rgb(98 112 109);
+  color: #cad2c5;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: -160%;
+  left: -220%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  bottom: 94%;
+  right: -3%;
+  border-width: 8px;
+  border-style: solid;
+  border-color: rgb(98 112 109) transparent transparent transparent;
+  transform: rotate(-160deg);
+}
+
+.tooltip.visible .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

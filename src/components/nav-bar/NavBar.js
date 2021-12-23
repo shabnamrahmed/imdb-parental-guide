@@ -1,8 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { ReactComponent as BackIcon } from "../../icons/chevron-left-solid.svg";
-import { ReactComponent as SearchIcon } from "../../icons/search-solid.svg";
-import "./NavBar.css";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { ReactComponent as BackIcon } from '../../icons/chevron-left-solid.svg';
+import { ReactComponent as SearchIcon } from '../../icons/search-solid.svg';
+import { ReactComponent as LinkIcon } from '../../icons/link-solid.svg';
+import './NavBar.css';
 
 NavBar.propTypes = {
   shouldshouldShowBackButton: PropTypes.bool,
@@ -19,6 +20,7 @@ NavBar.propTypes = {
 
 export default function NavBar({
   shouldShowBackButton,
+  shouldShowLinkIcon,
   onBackButtonClicked,
   searchBarRef,
   searchInputValue,
@@ -28,12 +30,30 @@ export default function NavBar({
   onInputSubmit,
   isCentered,
   isLoading,
+  titleId,
 }) {
+  const [isTooltipVisible, setIsTooltipVisible] = useState(false);
+
+  async function handleCopyToClipboard() {
+    setIsTooltipVisible(true);
+    var textArea = document.createElement('textarea');
+    textArea.value = `${window.location.origin}${window.location.pathname}?title=${titleId}`;
+    textArea.style.position = 'fixed'; //avoid scrolling to bottom
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    document.execCommand('copy');
+    setTimeout(() => setIsTooltipVisible(false), 2500);
+    document.body.removeChild(textArea);
+  }
+
   return (
     <div
       className={`nav-bar-container 
-      ${isCentered ? "centered" : ""} 
-      ${isLoading ? "hidden" : ""}`}
+      ${isCentered ? 'centered' : ''} 
+      ${isLoading ? 'hidden' : ''}
+      ${shouldShowLinkIcon ? 'title-selected-page' : ''}
+      `.trim()}
     >
       {shouldShowBackButton && (
         <BackIcon
@@ -53,6 +73,15 @@ export default function NavBar({
       </div>
 
       <SearchIcon className="search-button nav-icon" onClick={onInputSubmit} />
+      {shouldShowLinkIcon && (
+        <div className={`tooltip ${isTooltipVisible ? 'visible' : ''}`}>
+          <span className="tooltiptext">Url copied to clipboard</span>
+          <LinkIcon
+            className="link-button nav-icon"
+            onClick={handleCopyToClipboard}
+          />
+        </div>
+      )}
     </div>
   );
 }
