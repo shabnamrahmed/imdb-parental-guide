@@ -1,25 +1,26 @@
 {
   "files": {
-    "main.css": "/imdb-parental-guide/static/css/main.b4023622.chunk.css",
-    "main.js": "/imdb-parental-guide/static/js/main.d2090fca.chunk.js",
-    "main.js.map": "/imdb-parental-guide/static/js/main.d2090fca.chunk.js.map",
+    "main.css": "/imdb-parental-guide/static/css/main.02f10767.chunk.css",
+    "main.js": "/imdb-parental-guide/static/js/main.df955b99.chunk.js",
+    "main.js.map": "/imdb-parental-guide/static/js/main.df955b99.chunk.js.map",
     "runtime-main.js": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js",
     "runtime-main.js.map": "/imdb-parental-guide/static/js/runtime-main.c187cc80.js.map",
-    "static/js/2.568636a5.chunk.js": "/imdb-parental-guide/static/js/2.568636a5.chunk.js",
-    "static/js/2.568636a5.chunk.js.map": "/imdb-parental-guide/static/js/2.568636a5.chunk.js.map",
+    "static/js/2.1b5abf7c.chunk.js": "/imdb-parental-guide/static/js/2.1b5abf7c.chunk.js",
+    "static/js/2.1b5abf7c.chunk.js.map": "/imdb-parental-guide/static/js/2.1b5abf7c.chunk.js.map",
     "index.html": "/imdb-parental-guide/index.html",
-    "precache-manifest.ac087f76dfd583cac65751c19a3ce7e3.js": "/imdb-parental-guide/precache-manifest.ac087f76dfd583cac65751c19a3ce7e3.js",
+    "precache-manifest.c1245975809bb1b8e211b88d697a45e3.js": "/imdb-parental-guide/precache-manifest.c1245975809bb1b8e211b88d697a45e3.js",
     "service-worker.js": "/imdb-parental-guide/service-worker.js",
-    "static/css/main.b4023622.chunk.css.map": "/imdb-parental-guide/static/css/main.b4023622.chunk.css.map",
-    "static/js/2.568636a5.chunk.js.LICENSE.txt": "/imdb-parental-guide/static/js/2.568636a5.chunk.js.LICENSE.txt",
+    "static/css/main.02f10767.chunk.css.map": "/imdb-parental-guide/static/css/main.02f10767.chunk.css.map",
+    "static/js/2.1b5abf7c.chunk.js.LICENSE.txt": "/imdb-parental-guide/static/js/2.1b5abf7c.chunk.js.LICENSE.txt",
     "static/media/chevron-left-solid.dc880f17.svg": "/imdb-parental-guide/static/media/chevron-left-solid.dc880f17.svg",
     "static/media/chevron-up-solid.3b30c822.svg": "/imdb-parental-guide/static/media/chevron-up-solid.3b30c822.svg",
+    "static/media/link-solid.6af56728.svg": "/imdb-parental-guide/static/media/link-solid.6af56728.svg",
     "static/media/search-solid.c6a0effb.svg": "/imdb-parental-guide/static/media/search-solid.c6a0effb.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c187cc80.js",
-    "static/js/2.568636a5.chunk.js",
-    "static/css/main.b4023622.chunk.css",
-    "static/js/main.d2090fca.chunk.js"
+    "static/js/2.1b5abf7c.chunk.js",
+    "static/css/main.02f10767.chunk.css",
+    "static/js/main.df955b99.chunk.js"
   ]
 }
