@@ -21,7 +21,7 @@ const STEPS = {
   VIEW_GUIDES: 'VIEW_GUIDES',
 };
 
-const API_URL = 'https://imdb-parental-advisory.xsaudahmed.repl.co';
+const API_URL = 'https://content-advisory-api.xsaudahmed.repl.co';
 
 const SWIPE_THRESHOLD = 125;
 
