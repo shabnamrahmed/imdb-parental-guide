@@ -21,7 +21,9 @@ const STEPS = {
   VIEW_GUIDES: 'VIEW_GUIDES',
 };
 
-const API_URL = 'https://content-advisory-api.xsaudahmed.repl.co';
+const API_URL =
+  process.env.REACT_APP_DEV_URL ||
+  'https://content-advisory-api.xsaudahmed.repl.co';
 
 const SWIPE_THRESHOLD = 125;
 
@@ -131,7 +133,8 @@ class App extends React.Component {
       );
       this.addTouchHandlers();
     } catch (error) {
-      // TODO: handle error
+      window.history.replaceState({}, '', window.location.href.split('?')[0]);
+      this.setState({ errorMessage: error.message, isLoading: false });
     }
   };
 
@@ -140,6 +143,7 @@ class App extends React.Component {
     if (this.state.titleOptions.length) {
       this.setState({
         currentStep: STEPS.SELECT_TITLE,
+        selectedTitle: '',
         touchStartX: 0,
       });
     } else {
