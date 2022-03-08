@@ -16,6 +16,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "dev": "export REACT_APP_DEV_URL=http://localhost:3000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
